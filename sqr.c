@@ -2,28 +2,17 @@
 #include <math.h>
 #include <stdlib.h>
 #include <assert.h>
-
-
-#define INF_ROOTS 42
+#include "sqr.h"
 
 const double ACCURACY = 0.0001;
 
-int isEqual (double val1, double val2);
-int isZero (double val);
-
-int SolveLinear (double A, double B, double* X);
-int SolveSquare (double A, double B, double C, double* X1, double* X2);
-
-
-int main (){
-	
-	printf("Enter the coefficients a, b, c : ");
+int Solver (){
 	
 	double a = NAN, b = NAN, c = NAN;
 	
+	Input(&a, &b, &c);
+	
 	double x1 = NAN, x2 = NAN;
-
-	scanf ("%lg%lg%lg", &a, &b, &c);
 
 	int nRoots = SolveSquare(a, b, c, &x1, &x2);
 	

@@ -1,32 +1,41 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
-#include <assert.h>
+
 #include "sqr.h"
 
-int main(){
+int main (){
+	
 	printf("Press 's' if you wanna solve square equation\n");
 	printf("Press 't' if you wanna start tests\n");
 	printf("Press 'q' if you wanna quit the program\n");
-	int answer;
-	while(answer != EOF){
+	
+	int answer = 0;
+	
+	while (answer != 'q') {	
 		answer = getchar();
-		switch(answer) {
+		switch (answer) {
 			case '\n':
+				printf("Press 's' if you wanna solve square equation\n");
+				printf("Press 't' if you wanna start tests\n");
+				printf("Press 'q' if you wanna quit the program\n");
 				break;
+				
 			case 'q':
 				printf("The end of program\n");
 				return 0;
+				
 			case 's':
 				Solver();
-				return 0;
+				break;
+				
 			case 't':
 				UnitTest();
-				return 0;
+				break;
+				
 			default:
 				printf("Wrong answer. Try again\n");
-			break;
+				break;
 		}
+		printf("\n");
 	}
+	
 	return 0;
 }

@@ -1,15 +1,20 @@
+//!!! split
+
+#include <assert.h
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 
 #define INF_ROOTS 42
 
+enum SolveStatus {
+	WR_nROOTS = -5, //!
+	WR_X1 = -1,
+	WR_X2 = -2
+};
 
-
-//---------SolveStatus----------
-#define WR_nROOTS -5
-#define WR_X1 -1
-#define WR_X2 -2
-//------------------------------
-
-struct coeffs {
+struct coeffs { //!
 	double a;
 	double b;
 	double c;
@@ -24,19 +29,19 @@ struct coeffs {
 int Solver();
 int UnitTest();
 
-void Input();
+void Input(); //!
 
 int isEqual (double val1, double val2);
 int isZero (double val);
 
-int SolveLinear (double A, double B, double* X);
+int SolveLinear (double A, double B, double* X); //!
 int SolveSquare (double A, double B, double C, double* X1, double* X2);
 
-int SolveSquareTest (int counter, struct coeffs DATA);
+int SolveSquareTest (struct coeffs* DATA);
 
 void AscendingSort (double* val1, double* val2);	//Сортировка по возрастанию. После этой функции val2 всегда больше val1.
 													//Также если только одно число не NAN оно ставится на первое место
 
-void PrintInfo (struct coeffs DATA);
+void PrintInfo (struct coeffs* DATA);
 
 void ClearBuf();

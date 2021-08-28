@@ -13,19 +13,22 @@ void Input (double* A, double* B, double* C){
 		while(res != 1){
 			printf("Enter a : ");
 			res = scanf("%lg", A);
-			printf("%d", res);
+			//printf("%d", res);
+			ClearBuf();
 		}
 		res = 0;
 		while(res != 1){
 			printf("Enter b : ");
 			res = scanf("%lg", B);
-			printf("%d", res);
+			//printf("%d", res);
+			ClearBuf();
 		}
 		res = 0;
 		while(res != 1){
 			printf("Enter c : ");
 			res = scanf("%lg", C);
-			printf("%d", res);
+			//printf("%d", res);
+			ClearBuf();
 		}
 		printf("Is this your equation?\n");
 		printf("(%lg)X^2 + (%lg)X + (%lg) = 0\n", *A, *B, *C);
@@ -36,7 +39,7 @@ void Input (double* A, double* B, double* C){
 
 void ClearBuf (){
 	int letter = getchar();
-	while(letter != '\n' || letter != EOF){
+	while(letter != '\n' ){
 		letter = getchar();
 	}
 }

@@ -1,64 +1,106 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <assert.h>
 
-#define a coef[0]
-#define b coef[1]
-#define c coef[2]
 
-typedef double type;
+#define INF_ROOTS 42
+
+const double ACCURACY = 0.0001;
+
+int isEqual (double val1, double val2);
+int isZero (double val);
+
+int SolveLinear (double A, double B, double* X);
+int SolveSquare (double A, double B, double C, double* X1, double* X2);
+
 
 int main (){
-
-	type coef[3] = {0.0};
-	type D = 0, X1 = 0, X2 = 0;
-
-	scanf ("%lf%lf%lf", &a, &b, &c);
-
-	int nuli = 0;
-
-	for (int i = 0; i < 3; i++){
-		if (coef[i] == 0)
-			nuli++;
-	}
 	
-	switch (nuli){
-	case 3:
-		printf("X любой\n");
-		break;
-	case 2:
-		if (c)
-			printf("Нет корней\n");
-		else
-			printf ("X = 0\n");
+	printf("Enter the coefficients a, b, c : ");
+	
+	double a = NAN, b = NAN, c = NAN;
+	
+	double x1 = NAN, x2 = NAN;
+
+	scanf ("%lg%lg%lg", &a, &b, &c);
+
+	int nRoots = SolveSquare(a, b, c, &x1, &x2);
+	
+	switch (nRoots){
+	case 0:
+		printf("No roots\n");
 		break;
 	case 1:
-		if (a == 0)
-			printf ("X = %.4lf\n", (-c/b) );
-		else if (c == 0)
-			printf ("X1 = 0\nX2 = %.4lf\n", (-b/a) );
-		else if (b == 0){
-			X1 = sqrt(-c/a);
-			X2 = -sqrt(-c/a);
-			printf ("X1 = %.4lf\nX2 = %.4lf\n", X1, X2);
-		}
-			break;
-	case 0:
-		D = b*b - 4*a*c;
-		if (D < 0)
-			printf("Нет корней\n");
-		else if (D == 0)
-			printf ("X = %.4lf\n", (-b/(2*a)) );
-		else {
-			X1 = (-b + sqrt(D))/(2*a);
-			X2 = (-b - sqrt(D))/(2*a);
-			printf ("X1 = %.4lf\nX2 = %.4lf\n", X1, X2);
-		}
+		printf("X = %lg\n", x1);
+		break;
+	case 2:
+		printf("X1 = %lg, X2 = %lg\n", x1, x2);
+		break;
+	case INF_ROOTS:
+		printf("Infinite number of roots. X can be any number\n");
 		break;
 	default:
-		printf ("some error\n");
-		exit(1);
+		printf ("error: nRoots = %d\n", nRoots);
+		return 1;
 	}
 
 	return 0;
 }
+
+int isZero (double val){
+	assert(isfinite(val));
+
+	return (fabs(val) < ACCURACY);
+}
+
+int isEqual (double val1, double val2){
+	assert(isfinite(val1));
+	assert(isfinite(val2));
+	
+	return isZero(val1 - val2);
+}
+
+int SolveLinear (double A, double B, double* X){
+	assert(isfinite(A));
+	assert(isfinite(B));
+	
+	assert(X != NULL);
+	
+	if (isZero(A))
+		return(isZero(B))? INF_ROOTS : 0;
+	else {	
+		*X = -B/A;
+		return 1;
+	}
+}
+
+int SolveSquare (double A, double B, double C, double* X1, double* X2){
+	assert(isfinite(A));
+	assert(isfinite(B));
+	assert(isfinite(C));
+	
+	assert(X1 != NULL);
+	assert(X2 != NULL);
+	assert(X1 != X2);
+	
+	if (isZero(A)){
+		return SolveLinear(B, C, X1);
+	} else {
+		double D = B*B - 4*A*C;
+
+		if (isZero(D)){
+			*X1 = -B/(2*A);
+			return 1;
+		} else if (D < 0){
+			return 0;
+		} else {
+			double square_root_D = sqrt(D);
+			*X1 = (-B + square_root_D)/(2*A);
+			*X2 = (-B - square_root_D)/(2*A);
+			return 2;
+		}
+		
+	}
+}
+
